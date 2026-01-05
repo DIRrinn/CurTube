@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"url": "https://youtu.be/dQw4w9WgXcQ?si=HkVunoauaPMZY9An", "resolution": ".m4a", "incorrect_symbols_remove": false, "convert_to_mp3": true, "output_path": "path/to/directory"}
+=======
+{"url": "https://youtu.be/BO0FznuIOHg?si=7FwLtGxMGcycJw5n", "resolution": ".m4a", "incorrect_symbols_remove": false, "convert_to_mp3": true, "output_path": "/home/dirrinn/Audio"}
+>>>>>>> 8a1d41c (what)
