@@ -1,7 +1,5 @@
 import curses
-import download
-import set_config
-import convert
+import draw_logo
 from popup_window import PopupWindow
 from options_popup import create_popup
 
@@ -15,17 +13,8 @@ class MenuItem(object):
         self.window.keypad(1)
         self.window.bkgd(' ', curses.color_pair(1))
 
-        self.window.addstr(2, self.size_x - self.size_x // 2, r'''
-    ____ _   _ ____ _____ _   _ ____  _____
-   / ___| | | |  _ \_   _| | | | __ )| ____|
-  | |   | | | | |_) || | | | | |  _ \|  _|
-  | |___| |_| |  _ < | | | |_| | |_) | |___
-   \____|\___/|_| \_\|_|  \___/|____/|_____|
+        self.logo_size_y = draw_logo.draw_logo(self.window, self.size_x)
 
-   A small TUI app to download Youtube videos.
-
-   Move with arrows. Enter to choose option.
-''')
         self.position = 0
         self.items = items
         self.items.append(("Exit", "Exit"))
@@ -51,8 +40,8 @@ class MenuItem(object):
                 else:
                     mode = curses.A_NORMAL
 
-                msg = "%d. %s" % (index, item[0])
-                self.window.addstr(15 + index, 1, msg, mode)
+                msg = "%d. %s" % (index + 1, item[0])
+                self.window.addstr(self.logo_size_y + index, self.size_x - self.size_x // 2 - 7, msg, mode)
 
             key = self.window.getch()
 
@@ -60,7 +49,7 @@ class MenuItem(object):
                 if self.position == len(self.items) - 1:
                     return 0
                 else:
-                    self.items[self.position][1](self.items[self.position][0], self.size_y, self.size_x, self.screen)
+                    self.items[self.position][1](self.items[self.position][0], self.size_y - 3, self.size_x, self.screen)
 
             elif key == curses.KEY_UP:
                 self.navigate(-1)
@@ -75,7 +64,7 @@ class App(object):
     def __init__(self, stdscreen):
         self.screen = stdscreen
         self.screen.box(0, 0)  # Границы как и screen.border(0)
-        self.screen.addstr(0, 0, "Curtube by DIRrinn ", curses.A_DIM)
+        self.screen.addstr(0, 1, "Curtube by DIRrinn ", curses.A_DIM)
         self.screen.refresh()
 
         pos_y = curses.LINES
