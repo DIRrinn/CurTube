@@ -5,6 +5,7 @@ import set_config
 import pytubefix
 import urllib
 import convert
+from time import sleep
 
 class Config(object):
     def __init__(self, pos_y, pos_x, screen):
@@ -62,12 +63,15 @@ class Config(object):
         self.win.touchwin()
         self.win.refresh()
 
+    # Почему тут 2 convert? :DDD
     def convert(self):
         win = PopupWindow((self.pos_y, self.pos_x), "Convert to mp3")
         win.add_buttons([("True", set_config.set_conv, True), ("False", set_config.set_conv, False)])
         win.addstr((2, 4), '''Convert to mp3?
     The default resolution of audio file is .m4a,
-    so you might want to convert it to .mp3''')
+    so you might want to convert it to .mp3
+    (If you've chosen .mp3, file will be converted
+    secretly)''')
         win.display()
 
         del win
@@ -118,10 +122,14 @@ class DownloadW(object):
             win.addstr((4, 2), "Downloading video...")
             win.refresh()
             file = download.download(opt[0], opt[1], opt[2], opt[3], opt[4])
-            if opt[3] == True:
+            if opt[3] == True and opt[1] != ".mp3":
                 win.addstr((4, 2), "Converting video...")
                 win.window.refresh()
                 convert.convert_to_mp3(file, opt[1], opt[4])
+            elif opt[3] == True and opt[1] == ".mp3":
+                win.addstr((4, 2), "File is already .mp3!")
+                win.window.refresh()
+                sleep(3)
 
             win.addstr((4, 2), "Download has been finished!")
 
@@ -137,7 +145,9 @@ class DownloadW(object):
         win.add_buttons([("True", set_config.set_conv, True), ("False", set_config.set_conv, False)])
         win.addstr((2, 4), '''Convert to mp3?
     The default resolution of audio file is .m4a,
-    so you might want to convert it to .mp3''')
+    so you might want to convert it to .mp3
+    (If you've chosen .mp3, file will be converted
+    secretly)''')
         win.display()
 
         del win
