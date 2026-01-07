@@ -13,4 +13,4 @@ def convert_to_mp3(file, res, output):
     ffmpeg.run(stream)
 
     os.remove(source)
-    os.rename(new, source)
+    os.rename(new, output + "/" + file +".mp3")
