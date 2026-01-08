@@ -40,6 +40,8 @@ def download(url, res, symbols_remove, ifconvert, output):
     else:
         file = yt.title
 
+    file = file.replace('/', '\\')
+
     if res == ".m4a" or res == ".mp3":
         ys = yt.streams.get_audio_only()
     elif res == ".mp4":
